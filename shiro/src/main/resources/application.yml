@@ -1,0 +1,52 @@
+server:
+  port: 8088
+  servlet:
+    session:
+      timeout: 2592000
+    context-path: /
+spring:
+  datasource:
+    #type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test1?useSSL=false&useUnicode=true&characterEncoding=utf-8&nullCatalogMeansCurrent=true&serverTimezone=GMT%2b8
+    username: root
+    password: root
+  jackson:
+    time-zone: GMT+8
+    default-property-inclusion: NON_NULL
+  thymeleaf:
+    prefix: classpath:/templates/pages/
+    suffix: .html
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 10000
+    lettuce:
+      pool:
+        max-active: 200
+        max-wait: -1
+        max-idle: 8
+        min-idle: 3
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    cache-enabled: false
+    map-underscore-to-camel-case: true
+    default-statement-timeout: 30
+#logging:
+#  level:
+#    com.juhe: DEBUG
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  pageSizeZero: true
+  params: count=countSql
+image:
+  localPath: Z:/testJava/img

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+    <!-- log base path -->
+    <!-- 	<springProperty scope="context" name="logPath" source="log.path" defaultValue="logs"/> -->
+    <!-- log name -->
+    <property name="LOG_HOME" value="Z:/testJava/logo"/>
+    <!-- back log base path -->
+    <property name="LOG_BACK_HOME" value="logPath/backup"/>
+    <property name="SRVNAME" value="clsapi-console"/>
+    <!-- 文件切割大小 -->
+    <property name="maxFileSize" value="100MB"/>
+    <!-- 文档保留天数 -->
+    <property name="maxHistory" value="60"/>
+    <!-- 文档保留总大小 -->
+    <property name="totalSizeCap" value="10GB"/>
+
+    <!-- 系统服务日志 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${SRVNAME}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_BACK_HOME}/%d{yyyy-MM-dd}/${SRVNAME}.%d{HH}.%i.log.gz</fileNamePattern>
+            <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过10GB -->
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyyMMdd HH:mm:ss.SSS} %X{LOG_ID} [%thread] %-5level %logger{100}.%method\(\):%L - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} -[%X{traceid}] -%5p --- [%t] %-40.40logger{39} : %m%n
+            </Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/lhdq.error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}/error.%d{HH}.%i.log.gz</fileNamePattern>
+            <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过10GB -->
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyyMMdd HH:mm:ss.SSS} %X{LOG_ID} [%thread] %-5level %logger{100}.%method\(\):%L - %msg%n
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} -[%X{traceid}] -%5p --- [%t] %-40.40logger{39} : %m%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/lhdq.debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}/debug.%d{HH}.%i.log.gz</fileNamePattern>
+            <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过10GB -->
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} -[%X{traceid}] -%5p --- [%t] %-40.40logger{39} : %m%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/lhdq.warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}/warn.%d{HH}.%i.log.gz</fileNamePattern>
+            <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过10GB -->
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} -[%X{traceid}] -%5p --- [%t] %-40.40logger{39} : %m%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 颗粒度最小的配置 -->
+    <appender name="service_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/lhdq.service.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}/service_log.%d{HH}.%i.log.gz</fileNamePattern>
+            <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过10GB -->
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} -[%X{traceid}] -%5p --- [%t] %-40.40logger{39} : %m%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="dao_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/lhdq.dao.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}/dao_log.%d{HH}.%i.log.gz</fileNamePattern>
+            <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过10GB -->
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} -[%X{traceid}] -%5p --- [%t] %-40.40logger{39} : %m%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 颗粒度最小的划分 -->
+    <logger name="com.shiro.shiro.controller" level="debug" >
+        <appender-ref ref="stdout"/>
+    </logger>
+
+    <!-- 输出SQL日志，additivity为true时向上传递，生产级别必须设置成false-->
+    <logger name="com.shiro.shiro.dao" level="debug">
+        <appender-ref ref="dao_log"/>
+    </logger>
+    <!-- 输出Service日志，additivity为true时向上传递，生产级别必须设置成false-->
+    <logger name="com.shiro.shiro.service" level="error">
+        <appender-ref ref="service_log"/>
+    </logger>
+
+    <!-- 大类划分 -->
+    <!-- 输出除了上面日志外的所有日志，默认分下面这几类是必须的 -->
+    <root level="info">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="error"/>
+        <appender-ref ref="debug"/>
+        <appender-ref ref="warn"/>
+        <appender-ref ref="stdout"/>
+    </root>
+
+
+</configuration>

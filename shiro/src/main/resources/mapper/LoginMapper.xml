@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiro.shiro.dao.LoginDao">
+    <insert id="addUser" parameterType="map">
+        insert into user (username, password, salt) values ( #{username}, #{password}, #{salt} )
+    </insert>
+
+    <select id="queryUsers" parameterType="map" resultType="map">
+        select * from user where username = #{username}
+    </select>
+
+    <select id="queryPermissions" resultType="String" parameterType="map">
+        select c.permission from user_role a left join role_menu b on a.role_id = b.role_id
+        left join menu c on c.id = b.menu_id where a.user_id = #{userId}
+    </select>
+</mapper>

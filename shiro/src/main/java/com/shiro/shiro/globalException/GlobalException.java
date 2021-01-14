@@ -34,7 +34,7 @@ public class GlobalException {
 
 
 
-        return new ReturnData(e);
+        return new ReturnData("系统异常");
     }
 
 

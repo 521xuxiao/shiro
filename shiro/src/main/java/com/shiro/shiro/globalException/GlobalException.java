@@ -34,7 +34,15 @@ public class GlobalException {
 
 
 
-        return new ReturnData("系统异常");
+        ReturnData returnData = new ReturnData();
+        if(e instanceof BadSqlGrammarException){
+            returnData.setResultMessage("系统异常");
+            returnData.setSuccess(false);
+        }else if(e instanceof RuntimeException) {
+            returnData.setResultMessage(e.getMessage());
+            returnData.setSuccess(false);
+        }
+        return returnData;
     }
 
 

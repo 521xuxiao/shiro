@@ -1,0 +1,16 @@
+shiro操作手册
+
+1.安装shiro-spring依赖包
+2.globalException里面拦截未登录或者没有权限的配置
+3.往用户表里面增加用户,加密的密码用
+	SimpleHash sh = new SimpleHash("MD5", params.get("password").toString(), salt, 1);
+	shiro提供的工具类进行加密
+4.登录接口login利用shiro提供的subject将用户名和密码提交到secrityManager对象里面进行授权和验证
+  登录接口路径需要在配置文件ShiroConfig里面放开拦截
+5.shiroLoginFilter类不需要改
+6.ShiroSession里面需要改接受前端传过来的token的key
+7.shiroUserRealm 需要注入Dao层进行查询:
+	7-1 基于用户输入的用户名查询用户信息
+	7-2 根据登录人的id查询当前登录人的perMission集合(set集合)
+8.需要在权限验证的接口加上@RequiresPermissions("building:query")注解, 注解里面的值需要和 menu 表中的 permission 字段名一样
+9.可以通过 SecurityUtils.getSubject().getPrincipal() 获取当前登录人的信息(用户表里面的用户信息)

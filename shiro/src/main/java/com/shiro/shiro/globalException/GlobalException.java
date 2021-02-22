@@ -7,9 +7,11 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -24,8 +26,8 @@ public class GlobalException {
         e.printStackTrace();
 
 
-        /**
-         * 配错误输出文件里面的日志
+        /*
+          配错误输出文件里面的日志
          */
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw, true));
